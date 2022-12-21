@@ -1,15 +1,46 @@
 #include "mainwindow.h"
-#include "./ui_mainwindow.h"
+
+#include <QDesktopServices>
+#include <QMenuBar>
+#include <QMenu>
+#include <QUrl>
+
+
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
+    createMdiArea();
+    createActions();
+
+
+
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+
 }
+
+void MainWindow::createMdiArea()
+{
+    m_mdiArea = new QMdiArea(this);
+    //m_mdiArea->setViewMode(QMdiArea::TabbedView);
+    setCentralWidget(m_mdiArea);
+
+}
+
+
+void MainWindow::createActions()
+{
+
+}
+
+void MainWindow::createMenus()
+{
+
+
+}
+
 

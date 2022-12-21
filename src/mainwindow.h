@@ -2,6 +2,13 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMdiArea>
+#include <QAction>
+
+
+
+class QMdiArea;
+class QMenuBar;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -12,10 +19,19 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    explicit MainWindow(QWidget *parent = nullptr);
+    ~MainWindow() override;
 
-private:
-    Ui::MainWindow *ui;
+    void createMdiArea();
+    void createActions();
+    void createMenus();
+
+
+
+
+
+    QMdiArea *m_mdiArea;
+
+
 };
 #endif // MAINWINDOW_H
