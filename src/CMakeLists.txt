@@ -16,9 +16,12 @@ set(PROJECT_SOURCES
         DarkStyle.cpp
         mainwindow.h
         DarkStyle.h
+
+        MyWebViewer.qrc
 )
 
-add_library(MyWebViewerLib STATIC ${PROJECT_SOURCES})
+
+add_library(MyWebViewerLib SHARED ${PROJECT_SOURCES})
 
 target_link_libraries(MyWebViewerLib PUBLIC Qt6::Core Qt6::Widgets Qt6::Gui)
 

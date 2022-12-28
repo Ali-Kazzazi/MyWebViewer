@@ -1,0 +1,8 @@
+<RCC>
+  <qresource >
+    <file>res/home48.svg</file>
+    <file>res/home96.svg</file>
+    <file>res/wifion.svg</file>
+    <file>res/wifioff.svg</file>
+    </qresource>
+  </RCC>

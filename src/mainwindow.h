@@ -2,36 +2,48 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QMdiArea>
-#include <QAction>
-
-
-
-class QMdiArea;
-class QMenuBar;
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+class QAction;
+class QActionGroup;
+class QLabel;
+class QMenu;
 QT_END_NAMESPACE
+
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow() override;
+    MainWindow();
 
-    void createMdiArea();
+protected:
+
+private slots:
+    void newFile();
+
+private:
     void createActions();
     void createMenus();
+    void createToolbars();
+    void createStatusBar();
+    void updateConnectionStatus(bool isConnected, const QString &statusText);
 
 
+    QMenu *fileMenu;
+    QActionGroup *alignmentGroup;
+    QAction *homeAct;
+    QToolBar *m_mainToolBar;
 
-
-
-    QMdiArea *m_mdiArea;
+    QLabel *m_statusBarMsg;
+    QLabel *m_userStatus;
+    QLabel *m_connectionStatus;
+    QPixmap m_connectedPix;
+    QPixmap m_disconnectedPix;
 
 
 };
-#endif // MAINWINDOW_H
+
+
+#endif
