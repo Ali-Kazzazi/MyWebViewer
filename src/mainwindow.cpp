@@ -50,7 +50,7 @@ void MainWindow::createToolbars(){
 
     // creating main toolbar items
     const QSize toolbarIconSize(48, 48);
-    const int toolbarFixedHeight = 50;
+    const int toolbarFixedHeight = 75;
 
     m_mainToolBar = addToolBar(tr("Main ToolBar"));
     m_mainToolBar->addAction(homeAct);
