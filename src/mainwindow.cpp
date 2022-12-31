@@ -3,8 +3,6 @@
 
 #include "mainwindow.h"
 
-
-
 MainWindow::MainWindow()
 {
 
@@ -17,11 +15,13 @@ MainWindow::MainWindow()
     setWindowTitle(tr("Viewer"));
     setMinimumSize(160, 160);
     resize(852, 480);
+
+
 }
 
-void MainWindow::newFile()
+void MainWindow::homeClicked()
 {
-    qDebug() << "new file!!!!";
+
 }
 
 
@@ -30,7 +30,7 @@ void MainWindow::createActions()
 
     homeAct = new QAction(QIcon(":/res/home96.svg"), tr("&Home"), this);
     homeAct->setShortcuts(QKeySequence::New);
-    connect(homeAct, &QAction::triggered, this, &MainWindow::newFile);
+    connect(homeAct, &QAction::triggered, this, &MainWindow::homeClicked);
 
 
 

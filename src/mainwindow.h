@@ -3,12 +3,12 @@
 
 #include <QMainWindow>
 
-QT_BEGIN_NAMESPACE
+
 class QAction;
 class QActionGroup;
 class QLabel;
 class QMenu;
-QT_END_NAMESPACE
+
 
 
 class MainWindow : public QMainWindow
@@ -21,7 +21,7 @@ public:
 protected:
 
 private slots:
-    void newFile();
+    void homeClicked();
 
 private:
     void createActions();
