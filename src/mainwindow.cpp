@@ -1,5 +1,7 @@
 #include <QtWidgets>
 #include <QLabel>
+#include <QWebEngineView>
+#include <QDebug>
 
 #include "mainwindow.h"
 
@@ -10,17 +12,45 @@ MainWindow::MainWindow()
     createMenus();
     createToolbars();
     createStatusBar();
+    createMdiArea();
 
 
     setWindowTitle(tr("Viewer"));
     setMinimumSize(160, 160);
     resize(852, 480);
 
+//    connect(m_mdiArea, &QMdiArea::subWindowActivated, this, &MainWindow::subWindowChanged);
+
+}
+
+void MainWindow::subWindowChanged() {
+    // prevent zoom in and zoom out actions from being active when no subwindow is active
+//    bool isWindowActive = !m_mdiArea->subWindowList().isEmpty();
+
+//    if (isWindowActive && m_mdiArea->activeSubWindow()) {
+//        m_currentView = dynamic_cast<QWebEngineView *>(m_mdiArea->activeSubWindow()->widget());
+//    }
+}
+
+void MainWindow::createMdiArea()
+{
+    m_mdiArea = new QMdiArea(this);
+    setCentralWidget(m_mdiArea);
 
 }
 
 void MainWindow::homeClicked()
 {
+    view = new QWebEngineView();
+    QUrl url;
+    url.setUrl(QString("https://www.google.com"));
+    view->load(url);
+
+
+    QMdiSubWindow *subWindow = new QMdiSubWindow(m_mdiArea);
+    subWindow->setWidget(view);
+    subWindow->show();
+
 
 }
 
@@ -31,8 +61,6 @@ void MainWindow::createActions()
     homeAct = new QAction(QIcon(":/res/home96.svg"), tr("&Home"), this);
     homeAct->setShortcuts(QKeySequence::New);
     connect(homeAct, &QAction::triggered, this, &MainWindow::homeClicked);
-
-
 
 }
 

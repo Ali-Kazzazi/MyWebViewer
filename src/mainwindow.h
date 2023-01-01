@@ -2,12 +2,16 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMdiArea>
+#include <QWebEngineView>
+
 
 
 class QAction;
 class QActionGroup;
 class QLabel;
 class QMenu;
+class QMdiArea;
 
 
 
@@ -29,6 +33,8 @@ private:
     void createToolbars();
     void createStatusBar();
     void updateConnectionStatus(bool isConnected, const QString &statusText);
+    void createMdiArea();
+    void subWindowChanged();
 
 
     QMenu *fileMenu;
@@ -42,6 +48,9 @@ private:
     QPixmap m_connectedPix;
     QPixmap m_disconnectedPix;
 
+    QMdiArea *m_mdiArea;
+    QWebEngineView *m_currentView;
+    QWebEngineView *view ;
 
 };
 
