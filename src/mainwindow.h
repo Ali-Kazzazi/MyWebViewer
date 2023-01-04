@@ -7,11 +7,14 @@
 
 
 
+
 class QAction;
 class QActionGroup;
 class QLabel;
 class QMenu;
 class QMdiArea;
+class ServerInterface;
+class QUrl;
 
 
 
@@ -26,6 +29,7 @@ protected:
 
 private slots:
     void homeClicked();
+    void openPage(QUrl name);
 
 private:
     void createActions();
@@ -34,7 +38,10 @@ private:
     void createStatusBar();
     void updateConnectionStatus(bool isConnected, const QString &statusText);
     void createMdiArea();
-    void subWindowChanged();
+    void loadSettings();
+    void keyPressEvent(QKeyEvent *event);
+    void initialServerInterface();
+    void initPages();
 
 
     QMenu *fileMenu;
@@ -49,8 +56,14 @@ private:
     QPixmap m_disconnectedPix;
 
     QMdiArea *m_mdiArea;
-    QWebEngineView *m_currentView;
     QWebEngineView *view ;
+
+
+    ServerInterface *m_serverInterface;
+
+
+signals:
+    void sendUrlToOpenPage(QUrl url);
 
 };
 

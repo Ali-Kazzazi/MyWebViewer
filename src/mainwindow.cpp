@@ -2,8 +2,13 @@
 #include <QLabel>
 #include <QWebEngineView>
 #include <QDebug>
+#include <QSettings>
+
 
 #include "mainwindow.h"
+#include "serverinterface.h"
+
+#define config "cfg.ini"
 
 MainWindow::MainWindow()
 {
@@ -13,24 +18,37 @@ MainWindow::MainWindow()
     createToolbars();
     createStatusBar();
     createMdiArea();
+    initialServerInterface();
 
 
     setWindowTitle(tr("Viewer"));
     setMinimumSize(160, 160);
-    resize(852, 480);
+    resize(1200, 720);
 
-//    connect(m_mdiArea, &QMdiArea::subWindowActivated, this, &MainWindow::subWindowChanged);
+    loadSettings();
+    initPages();
+
+
+
 
 }
 
-void MainWindow::subWindowChanged() {
-    // prevent zoom in and zoom out actions from being active when no subwindow is active
-//    bool isWindowActive = !m_mdiArea->subWindowList().isEmpty();
+void MainWindow::loadSettings(){
+    // check for settings file and create a default one if not exist
+    QFile settingsFile(config);
+    if (!settingsFile.exists()) {
+        QMessageBox::StandardButton result = QMessageBox::question(this, tr("No Configuration file"),
+                              tr("No configuration file %1 found, do you want to create a default one?").arg(config));
+        if (result == QMessageBox::Yes) {
+            QFile::copy(":/res/cfg.ini", config);
+            QFile configFile(config);
+            configFile.setPermissions(QFileDevice::ReadOther | QFileDevice::WriteOther);
+        }
+    }
 
-//    if (isWindowActive && m_mdiArea->activeSubWindow()) {
-//        m_currentView = dynamic_cast<QWebEngineView *>(m_mdiArea->activeSubWindow()->widget());
-//    }
+
 }
+
 
 void MainWindow::createMdiArea()
 {
@@ -41,16 +59,29 @@ void MainWindow::createMdiArea()
 
 void MainWindow::homeClicked()
 {
+
+    QUrl pageUrl = m_serverInterface->MAP_url;
+
+    emit sendUrlToOpenPage(pageUrl);
+
+
+
+updateConnectionStatus(true, "Client is connected to the Server!");
+
+
+}
+
+void MainWindow::openPage(QUrl url)
+{
+
     view = new QWebEngineView();
-    QUrl url;
-    url.setUrl(QString("https://www.google.com"));
     view->load(url);
-
-
-    QMdiSubWindow *subWindow = new QMdiSubWindow(m_mdiArea);
-    subWindow->setWidget(view);
-    subWindow->show();
-
+    QMdiSubWindow *subWindow = new QMdiSubWindow;
+     subWindow->setWidget(view);
+     subWindow->setAttribute(Qt::WA_DeleteOnClose);
+     m_mdiArea->addSubWindow(subWindow);
+     subWindow->show();
+     view->showMaximized();
 
 }
 
@@ -115,5 +146,29 @@ void MainWindow::updateConnectionStatus(bool isConnected, const QString &statusT
                                                : statusText);
 }
 
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_F5)
+        if(!m_mdiArea->subWindowList().empty()){
+            auto* activeView= dynamic_cast<QWebEngineView*>(m_mdiArea->activeSubWindow()->widget());
+            if(activeView)
+                activeView->reload();
+        }
+
+    QMainWindow::keyPressEvent(event);
+
+
+}
+
+void MainWindow::initialServerInterface()
+{
+    m_serverInterface = ServerInterface::instance();
+}
+
+void MainWindow::initPages()
+{
+    connect(this, &MainWindow::sendUrlToOpenPage, this, &MainWindow::openPage);
+
+}
 
 

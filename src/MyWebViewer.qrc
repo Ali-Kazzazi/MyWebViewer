@@ -4,5 +4,6 @@
     <file>res/home96.svg</file>
     <file>res/wifion.svg</file>
     <file>res/wifioff.svg</file>
+    <file>res/cfg.ini</file>
     </qresource>
   </RCC>
